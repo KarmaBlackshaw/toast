@@ -1,8 +1,15 @@
 <template>
   <div id="app">
-    <button @click="handleAddToast">
-      add {{ $toast.items }}
+    <button
+      class="btn"
+      @click="handleAddToast"
+    >
+      add
     </button>
+
+    <pre>
+      {{ $toast.items }}
+    </pre>
 
     <div>
       <TransitionGroup
@@ -11,7 +18,7 @@
         class="toast-container"
       >
         <div
-          v-for="toast in $toasts"
+          v-for="toast in $toast.items"
           :key="toast._id"
           class="toast"
           :class="[`toast--${toast.type}`]"
@@ -60,7 +67,7 @@
               src="@/assets/icons/close.png"
               alt=""
               class="close"
-              @click="$toastClose(toast)"
+              @click="$toast.close(toast)"
             >
           </div>
 
@@ -87,8 +94,7 @@ export default {
   // },
 
   created () {
-    console.log(this.$toasts)
-    console.log(this.$toast)
+    console.log(this.$toast.items)
   },
 
   methods: {
