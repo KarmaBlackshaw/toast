@@ -30,13 +30,10 @@ export default {
       }, item.timeout)
     }
 
-    function truncateTimeout (_id) {
-      clearTimeout(state.timeouts[_id])
-      delete state.timeouts[_id]
-    }
-
     function close ({ _id }) {
-      truncateTimeout(_id)
+      clearTimeout(state.timeouts[_id])
+
+      delete state.timeouts[_id]
 
       const index = state.items.findIndex(x => _id == x._id)
 
