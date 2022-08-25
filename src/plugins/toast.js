@@ -42,12 +42,15 @@ export default {
       }
     }
 
-    toast.close = close
+    Object.defineProperty(toast, 'items', {
+      get: () => state.items
+    })
+
+    Object.defineProperty(toast, 'close', {
+      value: close
+    })
 
     Vue.prototype.$toast = toast
 
-    Object.defineProperty(Vue.prototype.$toast, 'items', {
-      get: () => state.items
-    })
   }
 }
