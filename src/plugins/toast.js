@@ -5,7 +5,8 @@ function triggerFunction (fn) {
 export default {
   install (Vue) {
     const state = Vue.observable({
-      items: []
+      items: [],
+      timeouts: {}
     })
 
     function toast (options) {
@@ -22,14 +23,21 @@ export default {
 
       state.items.unshift(item)
 
-      setTimeout(() => {
+      state.timeouts[item._id] = setTimeout(() => {
         close(item)
 
         triggerFunction(item.onTimeout)
       }, item.timeout)
     }
 
+    function truncateTimeout (_id) {
+      clearTimeout(state.timeouts[_id])
+      delete state.timeouts[_id]
+    }
+
     function close ({ _id }) {
+      truncateTimeout(_id)
+
       const index = state.items.findIndex(x => _id == x._id)
 
       if (index > -1) {
